@@ -52,20 +52,53 @@
  */
 export function getItemNames(items) {
   // Your code here
+  if (!Array.isArray(items)) {
+    return [];
+  }
+  return items.map((i) => i.name);
 }
 
 export function getAffordableItems(items, maxPrice) {
   // Your code here
+  if (!Array.isArray(items) || typeof maxPrice !== "number") {
+    return [];
+  }
+  return items.filter((i) => i.price <= maxPrice);
 }
 
 export function calculateTotal(items) {
   // Your code here
+  if (!Array.isArray(items) || items.length <= 0) {
+    return 0;
+  }
+
+  return items.reduce((t, i) => {
+    let price = i.price;
+    let quantity = i.qty;
+    return t + price * quantity;
+  }, 0);
 }
 
 export function sortByPrice(items, ascending) {
   // Your code here
+  if (!Array.isArray(items)) {
+    return [];
+  }
+
+  let newitem = [...items].sort((a, b) => {
+    return ascending ? a.price - b.price : b.price - a.price;
+  });
+  return newitem;
 }
 
 export function formatBill(items) {
-  // Your code here
+  if (!Array.isArray(items) || items.length === 0) {
+    return "";
+  }
+  return items
+    .map((i) => {
+      const total = i.price * i.qty;
+      return `${i.name} x ${i.qty} = Rs.${total}`;
+    })
+    .join("\n");
 }
